@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telangana District Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="controls">
+        <h3>Telangana Dashboard</h3>
+        <p><small id="last-update">Syncing...</small></p>
+        <hr>
+        
+        <!-- <p><b>Map Display Field:</b></p>
+        <select id="fieldSelect">
+            <option value="none">-- Select --</option>
+            <option value="Temperature">🌡️ Temperature</option>
+            <option value="Population">👥 Population</option>
+            <option value="Births">👶 Births</option>
+            <option value="Deaths">⚰️ Deaths</option>
+        </select> -->
+
+        <p><b>Filter Districts:</b></p>
+        <select id="districtSelect" multiple>
+            <option value="all" selected>All Districts</option>
+        </select>
+        <button id="editBtn" onclick="location.href='start.html'">✏️ Edit Map Data</button>
+
+
+        <!-- <button id="viewTableBtn">📊 View Map Data</button> -->
+        <button id="refreshBtn">🔄 Manual Refresh</button>
+    </div>
+
+
+
+    <div id="controls1">
+    
+        <p><b>Map Display Field:</b></p>
+        <select id="fieldSelect">
+            <option value="none">-- Select --</option>
+            <option value="Temperature">🌡️ Temperature</option>
+            <option value="Population">👥 Population</option>
+            <option value="Births">👶 Births</option>
+            <option value="Deaths">⚰️ Deaths</option>
+        </select>
+        <button id="viewTableBtn">📊 View Map Data</button>
+      
+    </div>
+
+    <div id="floating-table-container" style="display:none;">
+        <div id="table-header">
+            <span>District Master Data</span>
+            <button id="closeTableBtn" title="Close">&times;</button>
+        </div>
+        <div id="table-scroll">
+            <table id="districtTable">
+                <thead>
+                    <tr>
+                        <th>District</th>
+                        <th>Temp</th>
+                        <th>Pop</th>
+                        <th>Births</th>
+                        <th>Deaths</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="map"></div>
+<script>
+function makeDraggable(id) {
+    const box = document.getElementById(id);
+    let drag = false, x = 0, y = 0;
+
+    box.addEventListener("mousedown", e => {
+        drag = true;
+        x = e.clientX - box.offsetLeft;
+        y = e.clientY - box.offsetTop;
+    });
+
+    document.addEventListener("mousemove", e => {
+        if (!drag) return;
+        box.style.left = e.clientX - x + "px";
+        box.style.top = e.clientY - y + "px";
+        box.style.transform = "none";
+    });
+
+    document.addEventListener("mouseup", () => drag = false);
+}
+
+makeDraggable("controls");
+makeDraggable("controls1");
+</script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

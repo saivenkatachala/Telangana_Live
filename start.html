@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Telangana Data Entry</title>
+<link rel="stylesheet" href="s2.css">
+<!-- <style>
+body{
+  font-family: Arial;
+  background:#f4f6f8;
+  padding:20px;
+}
+form, table{
+  background:#fff;
+  padding:15px;
+  border-radius:6px;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+input, select, button{
+  padding:8px;
+  margin:5px;
+}
+table{
+  width:100%;
+  margin-top:20px;
+  border-collapse:collapse;
+}
+th, td{
+  border:1px solid #ddd;
+  padding:8px;
+  text-align:center;
+}
+th{
+  background:#2c7be5;
+  color:#fff;
+}
+button{
+  cursor:pointer;
+}
+</style> -->
+</head>
+<body>
+
+<h2>Telangana Data Entry</h2>
+
+<form id="dataForm">
+  <input type="hidden" id="id">
+  <select id="district" required>
+    <option value="">Select District</option>
+    <option>Adilabad</option>
+<option>Adilabad</option>
+<option>Asifabad</option>
+<option>Bhupalpally</option>
+<option>Gadwal</option>
+<option>Hyderabad</option>
+<option>Jagtial</option>
+<option>Jangaon</option>
+<option>KV Rangareddy</option>
+<option>Kamareddy</option>
+<option>Karimnagar</option>
+<option>Khammam</option>
+<option>Kothgudem</option>
+<option>Mahabubabad</option>
+<option>Mahabubnagar</option>
+<option>Mancherial</option>
+<option>Medak</option>
+<option>Medchal</option>
+<option>Mulugu</option>
+<option>Nagarkurnool</option>
+<option>Nalgonda</option>
+<option>Narayanpet</option>
+<option>Nirmal</option>
+<option>Nizamabad</option>
+<option>Peddapalli</option>
+<option>Sangareddy</option>
+<option>Siddipet</option>
+<option>Sircilla</option>
+<option>Suryapet</option>
+<option>Vikarabad</option>
+<option>Wanaparthy</option>
+<option>Warangal Urban</option>
+<option>Yadadri</option>
+
+
+  </select>
+
+  <input type="number" id="temperature" placeholder="Temperature">
+  <input type="number" id="population" placeholder="Population">
+  <input type="number" id="births" placeholder="Births">
+  <input type="number" id="deaths" placeholder="Deaths">
+
+  <button type="submit">Save / Update</button>
+  <button type="button" onclick="window.location.href='index.html'">
+    View Live Map
+</button>
+</form>
+
+<button onclick="downloadCSV()">Download CSV</button>
+
+<table id="dataTable">
+<thead>
+<tr>
+<th>District</th>
+<th>Temp</th>
+<th>Population</th>
+<th>Births</th>
+<th>Deaths</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<script>
+const URL = "https://script.google.com/macros/s/AKfycbw8hm4xdZYcyTGtIj7ug-rnogHpm0rzW2DNZaM1rDTyOhdiczBS702DXq5W11ZLgD6E/exec";
+
+document.getElementById("dataForm").onsubmit = e => {
+  e.preventDefault();
+  const payload = {
+    action: document.getElementById("id").value ? "update" : "save",
+    id: document.getElementById("id").value,
+    district: district.value,
+    temperature: temperature.value,
+    population: population.value,
+    births: births.value,
+    deaths: deaths.value
+  };
+  fetch(URL, {
+    method:"POST",
+    body:JSON.stringify(payload)
+  }).then(()=> {
+    loadData();
+    dataForm.reset();
+    id.value="";
+  });
+};
+
+function loadData(){
+  fetch(URL+"?action=read")
+  .then(r=>r.json())
+  .then(data=>{
+    const tbody=document.querySelector("tbody");
+    tbody.innerHTML="";
+    data.forEach(r=>{
+      tbody.innerHTML+=`
+      <tr>
+        <td>${r[1]}</td>
+        <td>${r[2]}</td>
+        <td>${r[3]}</td>
+        <td>${r[4]}</td>
+        <td>${r[5]}</td>
+        <td>
+          <button onclick='edit(${JSON.stringify(r)})'>Edit</button>
+          <button onclick='del(${r[0]})'>Delete</button>
+        </td>
+      </tr>`;
+    });
+  });
+}
+
+function edit(r){
+  id.value=r[0];
+  district.value=r[1];
+  temperature.value=r[2];
+  population.value=r[3];
+  births.value=r[4];
+  deaths.value=r[5];
+}
+
+function del(id){
+  fetch(URL+"?action=delete&id="+id).then(loadData);
+}
+
+function downloadCSV(){
+  fetch(URL+"?action=read")
+  .then(r=>r.json())
+  .then(data=>{
+    let csv="District,Temperature,Population,Births,Deaths\n";
+    data.forEach(r=>{
+      csv+=`${r[1]},${r[2]},${r[3]},${r[4]},${r[5]}\n`;
+    });
+    const a=document.createElement("a");
+    a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(csv);
+    a.download="telangana_data.csv";
+    a.click();
+  });
+}
+
+loadData();
+</script>
+
+</body>
+</html>

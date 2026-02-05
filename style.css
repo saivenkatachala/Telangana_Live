@@ -1,0 +1,77 @@
+body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; }
+#map { height: 100vh; width: 100%; z-index: 1; }
+
+#controls {
+    position: absolute; top: 20px; left: 20px; width: 230px;
+    background: white; padding: 15px; border-radius: 8px; cursor: move;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2); z-index: 1000;
+}
+#controls1 {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 500px;
+    background: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    transform: translateX(-50%);
+    z-index: 1000;
+    cursor: move;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#controls1 p {
+    margin: 0;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+#controls1 select,
+#controls1 button {
+    height: 26px;
+    font-size: 12px;
+    padding: 2px 6px;
+}
+
+
+
+#districtSelect { height: 100px; width: 100%; margin-bottom: 10px; }
+#fieldSelect { width: 100%; margin-bottom: 10px; }
+
+#viewTableBtn { background: #3498db; color: white; margin-bottom: 5px; }
+#editBtn { background: #3498db; color: white; margin-bottom: 5px; }
+#refreshBtn { background: #2ecc71; color: white; }
+#viewTableBtn, #refreshBtn, #editBtn { width: 100%; padding: 8px; border: none; cursor: pointer; border-radius: 4px; font-weight: bold; }
+
+/* Scrollable Draggable Table */
+#floating-table-container {
+    position: absolute; top: 100px; right: 50px; width: 420px;
+    background: white; z-index: 2000; border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden;
+}
+
+#table-header {
+    background: #2c3e50; color: white; padding: 10px; cursor: move;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+#closeTableBtn { background: none; border: none; color: white; font-size: 22px; cursor: pointer; line-height: 1; }
+
+#table-scroll { 
+    max-height: 280px; /* Approximately 8 rows height */
+    overflow-y: auto; 
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { background: #f1f1f1; position: sticky; top: 0; z-index: 2; }
+td, th { padding: 10px 8px; border-bottom: 1px solid #ddd; text-align: left; }
+tr:hover { background: #f9f9f9; cursor: pointer; color: #2980b9; }
+
+/* Custom Scrollbar */
+#table-scroll::-webkit-scrollbar { width: 8px; }
+#table-scroll::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+#table-scroll::-webkit-scrollbar-thumb:hover { background: #aaa; }
